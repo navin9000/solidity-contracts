@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ethers.js</title>
+</head>
+<body>
+	<h1>Learning ethers.js library by myself</h1>
+	<script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+	<script>
+		//creating an object of ethers.js
+		const provider = new ethers.providers.Web3Provider(window.ethereum,"ropsten"); 	
+		console.log(provider.getBlockNumber());
+
+	</script>
+</body>
+</html>

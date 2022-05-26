@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>mood status</title>
+	<style type="text/css">
+		.inp{
+			margin-top: 100px;
+		}
+		div{
+			height:150px;
+			width: 150px;
+			margin: auto;
+		}
+
+		.h1{
+
+		}
+	</style>
+</head>
+<body>
+	
+	<div class="inp">
+		<h1>Setting up the mood</h1>
+		<input type="text" id="mood">
+	</div>
+	<div>
+		<button onclick="setmood()">set mood</button>
+		<button onclick="getmood()">get mood</button>
+	</div>
+
+	<script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"type="application/javascript"></script>
+    <script type="text/javascript">
+    	const provider = new ethers.providers.Web3Provider(window.ethereum,"ropsten");
+
+    	moodContractAddress="0x56AC4b79742886826175367508B8FD6e455ADd19";
+    	moodContractABI=[
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "value",
+				"type": "string"
+			}
+		],
+		"name": "setMood",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getMood",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+        // without giving the button to connect the metamask
+    	//requesting for the users wallet 
+    	provider.send("eth_requestAccounts",[]).then(()=> {
+    		provider.listAccounts().then((accounts)=>{
+    			signer = provider.getSigner(accounts[0]);
+    			moodContractObj = new ethers.Contract(
+    				moodContractAddress,
+    				moodContractABI,
+    				signer
+    				)
+    		});
+    	});
+
+
+    	//creating an asynchronous functions to call the contract methods 
+
+    	async function setmood(){
+    		const mood = document.getElementById("mood").value;
+    		const setmoodpromise = moodContractObj.setMood(mood);
+    		await setmoodpromise;
+    	}
+
+    	async function getmood(){
+    		const getmood = moodContractObj.getMood();
+    		const getmoodpromise = await getmood;
+    		console.log(getmoodpromise);
+
+    	}
+
+
+
+    </script>
+</body>
+</html>
